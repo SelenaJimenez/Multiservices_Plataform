@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Multiservices</title>
+        <link rel="stylesheet" href="CSS/main.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+        <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBxGF4EGHE-6tmzA60DZktJLslX8n2ThFc",
+        authDomain: "fabulus-a7471.firebaseapp.com",
+        databaseURL: "https://fabulus-a7471.firebaseio.com",
+        projectId: "fabulus-a7471",
+        storageBucket: "fabulus-a7471.appspot.com",
+        messagingSenderId: "608667945769"
+      };
+
+      firebase.initializeApp(config);
+    </script>
+
+
+</head>
+<body >
+<!-- Barra de navegación colapsable-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="servicios.html"><img class="logoCircle" src="img/logo.png"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+        <a class="nav-link" href="main.html">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="servicios.html">Servicios</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="acerca.html">Acerca de</a>
+        </li>
+           
+        </ul>
+        <button class="btn btn-outline-danger" onclick="location.href='publicar.html'">Crear publicación</button>
+        <button class="btn btn-outline-success" onclick='cerrar()'>Cerrar Cuenta</button>
+    </div>
+    </nav>
+ <!-- Fin barra de navegación-->
+
+<div class="container" >
+    <h1 class="back text-center pt-5" id="title2">Anuncios</h1>
+
+    <section id="usuario" >
+    <div id="contenedor">
+
+	<!--Navegación para usuarios logeados"-->
+      <div  class="row">
+      <div class="btn-group">
+
+       <div class="col-md-2 "><a href="main.html"><button class="button"> Perfil</button></a></div>
+        <div class="col-md-2 offset-md-1"><a href="anuncios.html"><button class="butS">Anuncios</button></a></div>
+        <div class="col-md-2 offset-md-1"><a href="mensajes.html"><button class="button">Mensajes</button></a></div>
+        <div class="col-md-2 offset-md-1"><button class="button">Notificaciones</button></div>
+
+      </div>
+      
+    </div>
+	 <!--Fin navegación usuarios logeados-->
+      <hr>
+      <div class=" row pt-3">
+        <div class="col-md-6 offset-md-3 form-inline">
+    <!----      <input class="form-control" style="width:80%" type="search" placeholder="bscar en mis anuncios">
+      <button class="btn btn-primary">Buscar</button> -->
+      </div>
+      </div>
+     <!--Comienza tabla de publicaciones-->
+     <div class="btn-fila"  id="selena">
+     <button class="botonS"; onclick="Pusuario()"; >Publicaciones Realizadas</button>
+     <button class="botonf"; onclick="Request()"; >Solicitudes Pendientes</button>
+     <button class="botonf"; onclick="PublicacionesAceptadas(1)"; >Trabajos en proceso</button>
+     <button class="botonf"; onclick=" PublicacionesAceptadas(0)"; >Solicitudes Aceptadas</button>
+     
+    </div>
+     
+     
+     <div id="publicaciones"> 
+    <div class="row pt-5">
+
+    </div>
+  </div>
+
+  </section>
+  </div>
+
+
+
+    <script>
+    var texto=new Array();
+    firebase.auth().onAuthStateChanged(function(user) {      
+        var uid= user.uid;
+        firebase.auth().onAuthStateChanged(function(user) {
+    var uid = user.uid;
+    firebase.database().ref("Usuario/" + uid).child("Publication").once("value", function(snapshot) {
+        snapshot.forEach(function(categoria) {
+          var cat = categoria.key;
+          texto = "";
+          categoria.forEach(function(idpublicacion) {
+            var IDp = idpublicacion.key;
+            var contenido = document.getElementById("publicaciones");
+            var database = firebase.database().ref("Publications/" + cat + "/" + IDp);
+            database.once("value", function(child) {
+              if (child.val() != null) {
+                var desc1 = JSON.stringify(child.child("description"))
+                  .split('"')
+                  .join("");
+                var title1 = JSON.stringify(child.child("title"))
+                  .split('"')
+                  .join("");
+                var img1 = JSON.stringify(child.child("pic1"));
+                var precio1 = JSON.stringify(child.child("valor"));
+                if (child.child("category").val() != null) {
+                  texto =creartexto(img1, title1, desc1, precio1, cat, IDp, uid,1) +texto;
+                 
+                }
+                else{
+                  texto =' <div  class="row pt-5"; ><div class="col-md-2 offset-md-1">' +" <img src=" +
+                  img1 +"></div>" +'<div class="col-md-6">' +"<h4>" +title1 +"</h4>" +
+                  "<p>" +desc1 +"</p>" +"<h4>valor: $" + precio1 +"</h4> </div>" + '<div class="col-md-2 offset-md-1">' +
+                  " <h6> Trabajo en Proceso</h6></div>" +"<div id=" +IDp + "> </div></div>" +texto;
+                }
+                contenido.innerHTML = texto;
+              }
+            });
+          });
+        });
+      });
+  });
+});
+
+    </script>
+      
+    <script src="java/profil.js"></script>
+    <!-- Optional JavaScript -->
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ </body>
+</body>
+</html>

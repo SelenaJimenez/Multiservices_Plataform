@@ -109,7 +109,7 @@ function aplicar(publicador, key, cat) {
 
     aplicar2(cat, key, uid, publicador);
 
-    firebase
+    x=firebase
       .database()
       .ref(
         "Usuario/" +
@@ -121,12 +121,12 @@ function aplicar(publicador, key, cat) {
           "/interesados/" +
           uid
       )
-      .set({
+      x.set({
         interestedID: 0
-      });
-  })
+      }).then(location.href = "main.html");
+  });
   alert("¡Has aplicado a la oferta de trabajo!");
-  location.href = "main.html";
+  
 }
 
 function aplicar2(cat, key, uid, publicador) {

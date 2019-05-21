@@ -50,8 +50,8 @@
           </ul>
 
 
-          <button class="btn btn-outline-danger" onclick="location.href='publicar.html'">Crear publicación</button>
-          <button class="btn btn-outline-success" onclick='cerrar()'>Cerrar Cuenta</button>
+          <button class="botonBarra" onclick="location.href='publicar.html'">Crear publicación</button>
+          <button class="botonCerrar" onclick='cerrar()'>Cerrar sesión</button>
 
         </div>
        </nav>
@@ -140,27 +140,74 @@
       firebase.auth().onAuthStateChanged(function(user) {      
             var uid= user.uid;
             firebase.database().ref("Usuario/"+uid).child("UserName").once("value", function(snapshot) {
-            Name.innerHTML=JSON.stringify(snapshot).split('"').join('');  
-            topic.innerHTML=JSON.stringify(snapshot).split('"').join('');  
+              var x=snapshot.val(); 
+              if(x==null){
+                
+                Name.innerHTML="Doble Click para ingresar fecha"
+               
+              }
+              else{
+                Name.innerHTML= x; 
+              }
+            
+          
           });
             firebase.database().ref("Usuario/"+uid).child("FechaNacimiento").once("value", function(snapshot) {
-              date.innerHTML=JSON.stringify(snapshot).split('"').join('');  
+              var x=snapshot.val(); 
+              if(x==null){
+                
+                date.innerHTML="Doble Click para ingresar fecha"
+               
+              }
+              else{
+                date.innerHTML= x; 
+              }
           });
           firebase.database().ref("Usuario/"+uid).child("Pais").once("value", function(snapshot) {
-              pais.innerHTML=JSON.stringify(snapshot).split('"').join('');  
+            var x=snapshot.val(); 
+              if(x==null){
+                
+                pais.innerHTML="Doble Click para ingresar Pais"
+               
+              }
+              else{
+                pais.innerHTML= x; 
+              }
+               
           });
           firebase.database().ref("Usuario/"+uid).child("Biografia").once("value", function(snapshot) {
-              biblio.innerHTML=JSON.stringify(snapshot).split('"').join('');  
+            var x=snapshot.val(); 
+              if(x==null){
+                
+                biblio.innerHTML="Doble Click para ingresar Bibliografia"
+               
+              }
+              else{
+                biblio.innerHTML= x; 
+              }
           });
           firebase.database().ref("Usuario/"+uid).child("star").once("value", function(snapshot) {
-              star.innerHTML=JSON.stringify(snapshot).split('"').join('');  
+            var x=snapshot.val(); 
+              if(x==null){
+                
+                star.innerHTML="N/A"
+               
+              }
+              else{
+                star.innerHTML= x; 
+              }
+             
           });
           firebase.database().ref("Usuario/"+uid).child("photo").once("value", function(snapshot) {
-              foto.innerHTML="<img src="+JSON.stringify(snapshot).split('"').join('')+"/>";  
+            var x=snapshot.val(); 
+              if(x==null){
+                foto.innerHTML="<img src='img/user.png'/> <p>Doble Click para ingresar una foto</p>"
+              }
+              else{
+                foto.innerHTML="<img src="+x+"/>";  
+              }
           });
-          firebase.database().ref("Usuario/"+uid).child("star").once("value", function(snapshot) {
-              star.innerHTML="<h3 "+JSON.stringify(snapshot).split('"').join('')+"/>";  
-          });
+         
 
         });
 

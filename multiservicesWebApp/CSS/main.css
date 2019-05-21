@@ -23,7 +23,40 @@ body{
 	color: #888;
 }
 
+/*------------------------------------------------------------------------------------*/
+.botonBarra {
+  background-color: rgb(243, 243, 243); 
+  border: none;
+  color: gray;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: right;
+  
+}
 
+.botonBarra:hover{
+  background-color: rgb(65, 65, 65);;
+  color: white;
+  border:none;
+}
+
+.botonCerrar {
+  background-color: rgb(210, 50, 45); 
+  border: none;
+  color: white;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: right;
+  
+}
 /*----------------------Botones Main/Anuncios-----------------------------------------*/
 
 .btn-group .button {

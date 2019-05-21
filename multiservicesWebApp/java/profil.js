@@ -259,13 +259,12 @@ function Pusuario() {
 
 function star(cal, uid, idPub, cat, P) {
   var database = firebase.database().ref("Usuario/" + uid);
-
   database.once("value").then(function(user) {
     var CalActual = user.child("star").val();
     var nCal = user.child("nCal").val();
 
-    if (CalActual == null) {
-      CalActual = 0;
+    if (CalActual == null || CalActual == 0) {
+      CalActual = cal;
       nCal = 0;
     }
 
@@ -413,11 +412,11 @@ function calificar(id, idPub, cat, P,iddoc) {
   var contenido = document.getElementById(iddoc);
   var onclick="'"+id + "','" +idPub + "','" +cat + "','" +P +"'";
   texto = '<div class="ec-stars-wrapper">'+
-'    <a onclick="star(this,'+onclick+');" value=1 title="Votar con 1 estrellas">&#9733;</a>'+
-'    <a onclick="star(this,'+onclick+');" value=2 title="Votar con 2 estrellas">&#9733;</a>'+
-'    <a onclick="star(this,'+onclick+');" value=3 title="Votar con 3 estrellas">&#9733;</a>'+
-'    <a onclick="star(this,'+onclick+');" value=4 title="Votar con 4 estrellas">&#9733;</a>'+
-'   <a onclick="star(this,'+onclick+');" value=5 title="Votar con 5 estrellas">&#9733;</a></div>';
+'    <a onclick="star(1,'+onclick+');" value=1 title="Votar con 1 estrellas">&#9733;</a>'+
+'    <a onclick="star(2,'+onclick+');" value=2 title="Votar con 2 estrellas">&#9733;</a>'+
+'    <a onclick="star(3,'+onclick+');" value=3 title="Votar con 3 estrellas">&#9733;</a>'+
+'    <a onclick="star(4,'+onclick+');" value=4 title="Votar con 4 estrellas">&#9733;</a>'+
+'   <a onclick="star(5,'+onclick+');" value=5 title="Votar con 5 estrellas">&#9733;</a></div>';
  
 
   contenido.innerHTML = texto;
